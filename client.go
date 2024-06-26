@@ -8,13 +8,13 @@ import (
 	"time"
 )
 
-type Client struct {
+type SimpleClient struct {
 	httpClient *http.Client
 	baseURL    string
 }
 
-func NewClient(baseURL string, timeout time.Duration, transport http.RoundTripper) *Client {
-	return &Client{
+func NewSimpleClient(baseURL string, timeout time.Duration, transport http.RoundTripper) *SimpleClient {
+	return &SimpleClient{
 		httpClient: &http.Client{
 			Timeout:   timeout,
 			Transport: transport,
@@ -23,7 +23,7 @@ func NewClient(baseURL string, timeout time.Duration, transport http.RoundTrippe
 	}
 }
 
-func (c *Client) Get(ctx context.Context, endpoint string, headers map[string]string) (*http.Response, error) {
+func (c *SimpleClient) Get(ctx context.Context, endpoint string, headers map[string]string) (*http.Response, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+endpoint, nil)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (c *Client) Get(ctx context.Context, endpoint string, headers map[string]st
 	return c.httpClient.Do(req)
 }
 
-func (c *Client) Post(ctx context.Context, endpoint string, body interface{}, headers map[string]string) (*http.Response, error) {
+func (c *SimpleClient) Post(ctx context.Context, endpoint string, body interface{}, headers map[string]string) (*http.Response, error) {
 	jsonData, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
