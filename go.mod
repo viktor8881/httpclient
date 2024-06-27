@@ -1,4 +1,4 @@
-module simplehttp
+module github.com/viktor8881/httpclient
 
 go 1.22
 
